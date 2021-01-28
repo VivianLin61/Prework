@@ -37,6 +37,7 @@ class ViewController: UIViewController {
         let defaults = UserDefaults.standard
         darkMode = defaults.bool(forKey: "DarkMode")
         setDarkMode()
+        billAmountTextField.tintColor = .white
         tipControl.setTitle(String(format: "%02d%%", Int(tipPercentages[0] * 100)), forSegmentAt: 0);
         tipControl.setTitle(String(format: "%02d%%", Int(tipPercentages[1] * 100)), forSegmentAt: 1);
         tipControl.setTitle(String(format: "%02d%%", Int(tipPercentages[2] * 100)), forSegmentAt: 2);
