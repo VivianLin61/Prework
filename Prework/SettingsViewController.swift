@@ -10,6 +10,7 @@ import UIKit
 class SettingsViewController: UIViewController {
     
     var newTipPercentages = [0.15, 0.18, 0.2];
+    var darkMode = false
 
     @IBOutlet weak var tip1: UITextField!
     @IBOutlet weak var tip2: UITextField!
@@ -18,11 +19,22 @@ class SettingsViewController: UIViewController {
         super.viewDidLoad()
         let backButton = UIBarButtonItem(title: "", style: .plain, target: navigationController, action: nil)
         navigationItem.leftBarButtonItem = backButton;
+        self.title = "Settings"
+        setDarkMode()
         tip1.text = String(format: "%02d%%", Int(newTipPercentages[0] * 100))
         tip2.text = String(format: "%02d%%", Int(newTipPercentages[1] * 100))
         tip3.text = String(format: "%02d%%", Int(newTipPercentages[2] * 100))
         // Do any additional setup after loading the view.
+        
     }
+    func setDarkMode() {
+        if darkMode {
+            overrideUserInterfaceStyle = .dark
+        } else {
+            overrideUserInterfaceStyle = .light
+        }
+    }
+    
     
     @IBAction func back(_ sender: Any) {
         // Perform your custom actions
@@ -37,6 +49,18 @@ class SettingsViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let vc = segue.destination as! ViewController
         vc.tipPercentages = newTipPercentages
+        vc.darkMode = darkMode
+    }
+    @IBAction func toggledDarkMode(_ sender: Any) {
+        darkMode.toggle()
+        let defaults = UserDefaults.standard
+        defaults.set(darkMode, forKey: "DarkMode")
+        if darkMode {
+            overrideUserInterfaceStyle = .dark
+        } else {
+            overrideUserInterfaceStyle = .light
+        }
+        
     }
     /*
     // MARK: - Navigation

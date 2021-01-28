@@ -21,6 +21,7 @@ class ViewController: UIViewController {
 
     var tipPercentages = [0.15, 0.18, 0.2];
     var rate = 0.0
+    var darkMode = false
     
   
     override func viewDidLoad() {
@@ -30,6 +31,9 @@ class ViewController: UIViewController {
         navigationItem.leftBarButtonItem = backButton
         self.title = "Tip Calculator"
         billAmountTextField.becomeFirstResponder()
+        let defaults = UserDefaults.standard
+        darkMode = defaults.bool(forKey: "DarkMode")
+        setDarkMode()
         tipControl.setTitle(String(format: "%02d%%", Int(tipPercentages[0] * 100)), forSegmentAt: 0);
         tipControl.setTitle(String(format: "%02d%%", Int(tipPercentages[1] * 100)), forSegmentAt: 1);
         tipControl.setTitle(String(format: "%02d%%", Int(tipPercentages[2] * 100)), forSegmentAt: 2);
@@ -39,6 +43,13 @@ class ViewController: UIViewController {
         billAmountTextField.addTarget(self, action: #selector(ViewController.billAmountTextFieldDidChange(_:)), for: .editingChanged)
     
         // Do any additional setup after loading the view.
+    }
+    func setDarkMode() {
+        if darkMode {
+            overrideUserInterfaceStyle = .dark
+        } else {
+            overrideUserInterfaceStyle = .light
+        }
     }
     
     @objc func billAmountTextFieldDidChange(_ textField: UITextField) {
@@ -75,6 +86,7 @@ class ViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let vc = segue.destination as! SettingsViewController
         vc.newTipPercentages = tipPercentages
+        vc.darkMode = darkMode
     }
     
 }
